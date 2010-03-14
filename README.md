@@ -16,14 +16,15 @@ distribution (if disk space is not an issue)
 or
     sudo apt-get install texlive-full
 
-## Important note
-Caméra Linéaire is currently *NOT SUPPORTED*, as the assembler file does not build with avrasm.
+## What's included:
+- Complete LaTeX source for documentation
+- Robopoly libraries which compile with avr-gcc
+- Pygaload script for downloading to flash
+- Example project with working Makefile
 
 
 ## Current TODO : 
 
-- include Pygaload script
-- include a default Makefile and example project
 - add some documentation on tools to install
 
 ### Later : 
