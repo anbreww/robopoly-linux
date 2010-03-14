@@ -16,6 +16,9 @@ distribution (if disk space is not an issue)
 or
     sudo apt-get install texlive-full
 
+## Important note
+Caméra Linéaire is currently *NOT SUPPORTED*, as the assembler file does not build with avrasm.
+
 
 ## Current TODO : 
 
