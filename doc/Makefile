@@ -7,6 +7,9 @@ BIBSOURCE = biblio-robopolinux
 pdf:
 	pdflatex $(TEXSOURCE) && pdflatex $(TEXSOURCE) && evince $(OUTPUT)
 
+pdfquiet:
+	pdflatex $(TEXSOURCE) && pdflatex $(TEXSOURCE)
+
 bib:
 	pdflatex $(TEXSOURCE) && pdflatex $(TEXSOURCE) && bibtex $(BASE_NAME) && pdflatex $(TEXSOURCE) && evince $(OUTPUT)
 

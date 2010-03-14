@@ -163,7 +163,7 @@ OBJDUMP=avr-objdump
 SIZE=avr-size
 AVRDUDE=avrdude
 REMOVE=rm -f
-PYGALOAD=pygaload
+PYGALOAD=./pygaload.py
 
 ##### automatic target names ####
 TRG=$(PROJECTNAME).out
