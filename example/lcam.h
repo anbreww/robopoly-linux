@@ -7,9 +7,9 @@
 //* Version: 0.1                                                //
 //**************************************************************//
 
-/** \defgroup lcam_h Caméra linéaire
+/** \defgroup lcam_h CamÃ©ra linÃ©aire
 	
-	\brief	Librairie pour l'utilisation de la caméra linéaire
+	\brief	Librairie pour l'utilisation de la camÃ©ra linÃ©aire
 
 	\author Christophe Winter (code)
 	\author	Fabrizio Loconte (code)
@@ -20,10 +20,10 @@
 /*@{*/
 
 
-/** \brief Configuration des ports du microcontrôleur
+/** \brief Configuration des ports du microcontrÃ´leur
 	
-	Cette fonction configure les pins sur lesquels la caméra est branchée en entrée ou en sortie. 
-	Vous devez l'appeler aprés avoir fait toute vos modification sur les ports, elle ne modifiera que ce qu'elle doit modifier.
+	Cette fonction configure les pins sur lesquels la camÃ©ra est branchÃ©e en entrÃ©e ou en sortie. 
+	Vous devez l'appeler aprÃ©s avoir fait toute vos modification sur les ports, elle ne modifiera que ce qu'elle doit modifier.
 
 
 */
@@ -31,9 +31,9 @@ void lcam_initport(void);
 
 
 
-/** \brief Initialisation de la caméra avec des paramètres standards
+/** \brief Initialisation de la camÃ©ra avec des paramÃ¨tres standards
 
-	Cette fonction initialise les paramaètre de la caméra (offset et gain) avec des paramètres standard.
+	Cette fonction initialise les paramaÃ¨tre de la camÃ©ra (offset et gain) avec des paramÃ¨tres standard.
 
 */
 void lcam_setup(void);
@@ -43,45 +43,45 @@ void lcam_setup(void);
 
 /** \brief Reset de la camera
 
-	Envoi l'ordre à la caméra de faire un reset
+	Envoi l'ordre Ã  la camÃ©ra de faire un reset
 
 */
 void lcam_reset(void);
 
 
-/** \brief Début de l'acquisition d'une image
+/** \brief DÃ©but de l'acquisition d'une image
 
-	Cette fonction envoie l'ordre à la caméra de commencer l'acquisition d'une image. Lors de la réception de cette ordre la caméra commence la prise d'une image.
+	Cette fonction envoie l'ordre Ã  la camÃ©ra de commencer l'acquisition d'une image. Lors de la rÃ©ception de cette ordre la camÃ©ra commence la prise d'une image.
 
 */
 void lcam_startintegration(void);
 
 
-/** \brief Fin de l'intégration et téléchargement des données
+/** \brief Fin de l'intÃ©gration et tÃ©lÃ©chargement des donnÃ©es
 
-	Cette fonction donne l'ordre à la caméra de stopper l'acquision d'une image et d'envoyer l'image au microcontrôleur. Elle se charge ensuite du téléchargement
-	des donnée
+	Cette fonction donne l'ordre Ã  la camÃ©ra de stopper l'acquision d'une image et d'envoyer l'image au microcontrÃ´leur. Elle se charge ensuite du tÃ©lÃ©chargement
+	des donnÃ©e
 
-	\param image Pointeur vers la zone mémoire ou l'image sera enregistrée (doit contenir 102 pixels)
+	\param image Pointeur vers la zone mÃ©moire ou l'image sera enregistrÃ©e (doit contenir 102 pixels)
 
 */
 void lcam_stop(unsigned char *image);
 
-void lcam_endintegration(void);	//Fin de l'intégration
-void lcam_readout(void);		//Préparation à la lecture
+void lcam_endintegration(void);	//Fin de l'intÃ©gration
+void lcam_readout(void);		//PrÃ©paration Ã  la lecture
 void lcam_read(unsigned char *image); //Lecture et sauvegarde dans buffer
 
 
 /** \brief Fonction pour la recherche d'un pic
 
-	Cette fonction recherche le pic de plus haute valeur sur une image. Cette fonction divise les 102 pixels en 25 zones numérotée de 1 à 25. Le résultat obtenu
-	est le numéro de la zone la plus lumineuse ou 0 si aucune zone n'était significativement plus lumineuse que les autres.
+	Cette fonction recherche le pic de plus haute valeur sur une image. Cette fonction divise les 102 pixels en 25 zones numÃ©rotÃ©e de 1 Ã  25. Le rÃ©sultat obtenu
+	est le numÃ©ro de la zone la plus lumineuse ou 0 si aucune zone n'Ã©tait significativement plus lumineuse que les autres.
 
-	Il faut également noter que cette fonction modifie l'image en mémoire. Une fois appliqué l'image n'est plus la même.
+	Il faut Ã©galement noter que cette fonction modifie l'image en mÃ©moire. Une fois appliquÃ© l'image n'est plus la mÃªme.
 
-	\param image Pointeur vers la zone mémoire contenant l'image à analyser (doit contenir 102 pixels)
-	\return 0 Aucune zone lumineuse détecter
-	\return # numéro de la zone la plus lumineuse
+	\param image Pointeur vers la zone mÃ©moire contenant l'image Ã  analyser (doit contenir 102 pixels)
+	\return 0 Aucune zone lumineuse dÃ©tecter
+	\return # numÃ©ro de la zone la plus lumineuse
 
 
 */
@@ -91,7 +91,7 @@ unsigned char lcam_getpic(unsigned char *image);
 #endif
 
 /** \addtogroup lcam_h
-	\section lcamexemple Exemple de programme documenté
+	\section lcamexemple Exemple de programme documentÃ©
 
 	Il ne faut pas oublier d'ajouter les fichier lcam.s et lcamc.c au projet sous AVR Studio.
 
@@ -107,8 +107,8 @@ unsigned char lcam_getpic(unsigned char *image);
 
 		//Initialisation
 		lcam_initport();		//Initialisation des pins du port
-		lcam_reset();			//Ordonne un reset à la camera
-		lcam_setup();			//Configure la caméra
+		lcam_reset();			//Ordonne un reset Ã  la camera
+		lcam_setup();			//Configure la camÃ©ra
 		
 		_delay_ms(2);			//attendre 2 ms pour que la logique de la camera puisse se configurer
 			
@@ -117,13 +117,13 @@ unsigned char lcam_getpic(unsigned char *image);
 			
 			lcam_startintegration();	//On commence l'acquisition
 			
-			_delay_us(96);		//Ici il faut attendre le temps d'intégration, c-à-d le temps d'exposition.
-			_delay_us(96);		//400 us est en général une bonnes valeur
-			_delay_us(96);		//Mais comme en photographie cela dépends de divers paramètres dont votre optique
+			_delay_us(96);		//Ici il faut attendre le temps d'intÃ©gration, c-Ã -d le temps d'exposition.
+			_delay_us(96);		//400 us est en gÃ©nÃ©ral une bonnes valeur
+			_delay_us(96);		//Mais comme en photographie cela dÃ©pends de divers paramÃ¨tres dont votre optique
 			_delay_us(96);		//et nous vous conseillons de faire quelques tests
-			_delay_us(15);		//_delay_us() peut faire au maximum 96us sur un microcontrôleur à 8 Mhz c'est pourquoi nous l'avons répéter
+			_delay_us(15);		//_delay_us() peut faire au maximum 96us sur un microcontrÃ´leur Ã  8 Mhz c'est pourquoi nous l'avons rÃ©pÃ©ter
 			
-			lcam_stop(image);  		//Fin de l'acquisition et téléchargement de l'image
+			lcam_stop(image);  		//Fin de l'acquisition et tÃ©lÃ©chargement de l'image
 			valeur = lcam_getpic(image); 	//Traitement de l'image 
 			
 
@@ -133,9 +133,9 @@ unsigned char lcam_getpic(unsigned char *image);
 			/////////////////////////////////////////
 			
 			_delay_ms(30);		//Attendre 100 ms avant la prochaine acquisiton
-			_delay_ms(30);		//La caméra ne peut fournir qu'une dizaine d'image par secondes (sinon elle plante)
+			_delay_ms(30);		//La camÃ©ra ne peut fournir qu'une dizaine d'image par secondes (sinon elle plante)
 			_delay_ms(30);		//Il y a plusieur _delay_ms() car cette fonciton peut attendre au maximum 30ms 
-			_delay_ms(10);		//sur un microcontrôleur à 8 Mhz
+			_delay_ms(10);		//sur un microcontrÃ´leur Ã  8 Mhz
 		}
 
 

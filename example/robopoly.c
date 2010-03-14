@@ -5,9 +5,9 @@
  * Date: 13.08.2008 
  * Auteur(s): Christophe Winter, Thierry Barras
  * 
- * Cette librairie a été crée par le club de robotique de l'EPFL Robopoly. 
- * Cette librairie est distribuée gratuitement aux membres de Robopoly et les sources 
- * appartiennent à Robopoly.
+ * Cette librairie a Ã©tÃ© crÃ©e par le club de robotique de l'EPFL Robopoly. 
+ * Cette librairie est distribuÃ©e gratuitement aux membres de Robopoly et les sources 
+ * appartiennent Ã  Robopoly.
  *
  ***************************************************************************************/
 
@@ -142,7 +142,7 @@ void waitus(unsigned char iter)
 }
 
 
-// fonction bloquante tant que buffer d'envoi n'est pas prêt pour recevoir le nouveau byte
+// fonction bloquante tant que buffer d'envoi n'est pas prÃªt pour recevoir le nouveau byte
 static unsigned char uartStatus = 1;
 void uartSendByte(unsigned char a)
 {
@@ -172,7 +172,7 @@ void uartSendString(const char *text)
 	}
 }
 
-// Fonction bloquante tant qu'aucun valeur reçue sur le bus
+// Fonction bloquante tant qu'aucun valeur reÃ§ue sur le bus
 unsigned char uartGetByte(void)
 {
 	if(uartStatus)
@@ -348,7 +348,7 @@ static volatile unsigned char ServoStatus = 0;
 char angle_servos[10]= {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 unsigned char num_servo;
 
-//La fonction set_servos permet de controller 10 servomoteur placés physiquement sur les lignes definies dans robopoly.h
+//La fonction set_servos permet de controller 10 servomoteur placÃ©s physiquement sur les lignes definies dans robopoly.h
 
 void set_servo(unsigned char num_servo, char angle_servo)
 
@@ -357,8 +357,8 @@ void set_servo(unsigned char num_servo, char angle_servo)
 	{
 		ServoStatus	= 1;	// initialisation uniquement lors du premier appel de la fct set_servo
 		TCCR2 		= 5;	// normal timer, fclk/128 => resolution 16us
-		OCR2 		= 250;  // a regler pour chaque servo entre 125 (1ms) et 250 (2ms). 125 correspondant à 0% et 250 à 100%
-		TCNT2		= 100;	// pour arriver à 2ms on compte de 100 à 255 = 155 cycles à 16us = 2.48ms
+		OCR2 		= 250;  // a regler pour chaque servo entre 125 (1ms) et 250 (2ms). 125 correspondant Ã  0% et 250 Ã  100%
+		TCNT2		= 100;	// pour arriver Ã  2ms on compte de 100 Ã  255 = 155 cycles Ã  16us = 2.48ms
 		TIFR 		&= ~((1<<OCF2)+(1<<TOV2));	//MAZ des flags
 		TIMSK 		|=  (1<<OCIE2)+(1<<TOIE2); //activation des interrupts COMP et OVF du timer 2
 		sei(); 				//Active les interruptions globales
@@ -367,9 +367,9 @@ void set_servo(unsigned char num_servo, char angle_servo)
 	if ((angle_servo<101)&&(angle_servo>=0))
 	{
 		angle_servos[num_servo] = (angle_servo)+150; 	
-		// OCR2-TCNT2 = nbre de cycle avec la ligne du servo à 1 (logique)
-		// ex:  angle = 0,   COMPARE après  50cycles à 16us = 0.8ms
-		// ex:  angle = 100, COMPARE après 150cycles à 16us = 2.4ms
+		// OCR2-TCNT2 = nbre de cycle avec la ligne du servo Ã  1 (logique)
+		// ex:  angle = 0,   COMPARE aprÃ¨s  50cycles Ã  16us = 0.8ms
+		// ex:  angle = 100, COMPARE aprÃ¨s 150cycles Ã  16us = 2.4ms
 
 		switch (num_servo)		
 		{
@@ -388,7 +388,7 @@ void set_servo(unsigned char num_servo, char angle_servo)
 }
 
 
-ISR(TIMER2_COMP_vect) //interruption bloquante !!  Mise de zéro des lignes des servos jusqu'au COMP suivant
+ISR(TIMER2_COMP_vect) //interruption bloquante !!  Mise de zÃ©ro des lignes des servos jusqu'au COMP suivant
 {
 	if (angle_servos[num_servo]  != -1)
 	{
@@ -409,14 +409,14 @@ ISR(TIMER2_COMP_vect) //interruption bloquante !!  Mise de zéro des lignes des s
 }
 
 
-ISR(TIMER2_OVF_vect) //interruption bloquante !! Mise à un des lignes des servos jusqu'au OVF suivant
+ISR(TIMER2_OVF_vect) //interruption bloquante !! Mise Ã  un des lignes des servos jusqu'au OVF suivant
 {
-	TCNT2	= 100;	// pour arriver à 2.48ms on compte de 100 à 255 (=155 cycles de 16us)
+	TCNT2	= 100;	// pour arriver Ã  2.48ms on compte de 100 Ã  255 (=155 cycles de 16us)
 	num_servo++;
 	if (num_servo>=10) num_servo=0;
 
 	
-	//Reglage du temps que la ligne va rester à 1.
+	//Reglage du temps que la ligne va rester Ã  1.
 	OCR2 = angle_servos[num_servo];
 
 

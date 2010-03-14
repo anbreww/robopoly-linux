@@ -10,25 +10,25 @@
 ;                                                                             * 
 ;******************************************************************************
 ;                                                                             *
-; Fonctions assembleur de la librairie C pour la caméra linéaire TSL3301.     *
-; Ces fonctions récupère les données et les traites (consultez lcam.h pour    *
+; Fonctions assembleur de la librairie C pour la camÃ©ra linÃ©aire TSL3301.     *
+; Ces fonctions rÃ©cupÃ¨re les donnÃ©es et les traites (consultez lcam.h pour    *
 ; plus d'informations														  *
 ;                                                                             *
 ;******************************************************************************
 
-;Fichier d'origine lcam.asm, modifié par Eric Seuret pour l'interface C
+;Fichier d'origine lcam.asm, modifiÃ© par Eric Seuret pour l'interface C
 
 #include <avr/io.h> 
 
 
 ;-----Configuration
-.equ 	LCAM_PORT 	, 		_SFR_IO_ADDR(PORTC) 	; Port sur lequel la cam est branchée
-.equ 	LCAM_DDR	, 		_SFR_IO_ADDR(DDRC)	; DDR du port sur lequel la cam est branchée
-.equ 	LCAM_PIN	,		_SFR_IO_ADDR(PINC)	; Port sur lequel la cam est branchée
+.equ 	LCAM_PORT 	, 		_SFR_IO_ADDR(PORTC) 	; Port sur lequel la cam est branchÃ©e
+.equ 	LCAM_DDR	, 		_SFR_IO_ADDR(DDRC)	; DDR du port sur lequel la cam est branchÃ©e
+.equ 	LCAM_PIN	,		_SFR_IO_ADDR(PINC)	; Port sur lequel la cam est branchÃ©e
 
-.equ 	LCAM_SDIN 	, 		3		; Pin du port sur lequel le SDIN de la cam est branché
-.equ	LCAM_SDOUT 	,		4		; Pin du port sur lequel le SDOUT de la cam est branché
-.equ 	LCAM_SCLK 	,		5		; Pin du port sur lequel le SDCLK de la cam est branché
+.equ 	LCAM_SDIN 	, 		3		; Pin du port sur lequel le SDIN de la cam est branchÃ©
+.equ	LCAM_SDOUT 	,		4		; Pin du port sur lequel le SDOUT de la cam est branchÃ©
+.equ 	LCAM_SCLK 	,		5		; Pin du port sur lequel le SDCLK de la cam est branchÃ©
 
 
 
@@ -54,7 +54,7 @@
 ;******************************************************************************
 ;                                                                             *
 ; Contient les fonctions de la libraire lcam. Cette libraire permet l'acqui-  *
-; sition de donnée par une camera linéaire TSL3301 de TAOS.                   *
+; sition de donnÃ©e par une camera linÃ©aire TSL3301 de TAOS.                   *
 ;                                                                             *
 ;******************************************************************************
 
@@ -99,16 +99,16 @@ lcam_initport:
 	sbi 	LCAM_DDR, LCAM_SDIN
 	sbi 	LCAM_DDR, LCAM_SCLK
 	cbi		LCAM_DDR, LCAM_SDOUT
-	cbi		LCAM_PORT, LCAM_SCLK 			; Pour en être sur
+	cbi		LCAM_PORT, LCAM_SCLK 			; Pour en Ãªtre sur
 	ret
 
-;-----Envoi de donnée/instruction
-;Envoie à la caméra linéaire le byte stocker dans le registre r18
+;-----Envoi de donnÃ©e/instruction
+;Envoie Ã  la camÃ©ra linÃ©aire le byte stocker dans le registre r18
 lsend:
 	push	r19
 	push	r21
 
-	;Start bit (SDIN à 0)
+	;Start bit (SDIN Ã  0)
 	cbi 	LCAM_PORT, LCAM_SDIN
 	LPULSE
 	
@@ -123,7 +123,7 @@ lsend_next:									;envoi des 8 bits (LSB en premier)
 	dec		r19
 	brne	lsend_next						;endfor
 
-	;Stop bit (SDIN à 1)
+	;Stop bit (SDIN Ã  1)
 	sbi		LCAM_PORT, LCAM_SDIN
 	LPULSE
 
@@ -133,7 +133,7 @@ lsend_next:									;envoi des 8 bits (LSB en premier)
 
 .global lcam_reset
 ;-----Reset
-;Assure que la TSL3301 soit opérationnelle
+;Assure que la TSL3301 soit opÃ©rationnelle
 lcam_reset:
 	push	r18
 
@@ -189,8 +189,8 @@ lpulsen_next3:
 	ret
 
 .global	lcam_startintegration
-;-----Intégration
-;Demande à la caméra de prendre une image.
+;-----IntÃ©gration
+;Demande Ã  la camÃ©ra de prendre une image.
 lcam_startintegration:
 	push	r18
 
@@ -214,8 +214,8 @@ lpulsen_next4:
 
 
 .global	lcam_endintegration
-;-----Fin d'intégration
-;Demande à la caméra de terminer l'intégration une fois le temps d'exposition souhaiter terminé
+;-----Fin d'intÃ©gration
+;Demande Ã  la camÃ©ra de terminer l'intÃ©gration une fois le temps d'exposition souhaiter terminÃ©
 lcam_endintegration:
 	push 	r18
 
@@ -238,15 +238,15 @@ lpulsen_next5:
 	ret
 
 .global lcam_readout
-;-----Préparation de l'envoie des donnée
-;Donne à la caméra l'odre de se préparer à envyer les donnée et attends qu'elle soit prête
+;-----PrÃ©paration de l'envoie des donnÃ©e
+;Donne Ã  la camÃ©ra l'odre de se prÃ©parer Ã  envyer les donnÃ©e et attends qu'elle soit prÃªte
 lcam_readout:
 	push	r18
 
 	ldi 	r18, 0x02				;Commande READPixel
 	rcall 	lsend			
 
-	sbis	LCAM_PIN, LCAM_SDOUT			;Boucle d'attente que la caméra soit prête
+	sbis	LCAM_PIN, LCAM_SDOUT			;Boucle d'attente que la camÃ©ra soit prÃªte
 	rjmp 	lcam_readout_end
 lcam_readout_next:	
 	LPULSE
@@ -260,8 +260,8 @@ lcam_readout_end:
 
 
 .global	lcam_read
-;-----Lecture des donnée
-;Une fois la caméra prête, lit les 102 pixels et les stock en SRAM (addresse lcam_buffer)
+;-----Lecture des donnÃ©e
+;Une fois la camÃ©ra prÃªte, lit les 102 pixels et les stock en SRAM (addresse lcam_buffer)
 lcam_read:
 	push	r18
 	push	r21
@@ -276,7 +276,7 @@ lcam_read:
 
 	ldi 	r19, 102					;for 1 to 102
 lcam_read_nextpixel:
-	ldi 	r18, 0					;réception d'un pixel (LSB en premier)
+	ldi 	r18, 0					;rÃ©ception d'un pixel (LSB en premier)
 	
 	ldi 	r20, 8					;for 1 to 8
 	LPULSE
@@ -306,8 +306,8 @@ lcam_read_nextbit:
 
 .global lcam_getpic
 ;-----Le pic de plus haute valeur
-;partage les 102 pixels en 25 zones de 4 pixels (ignorant les pixels extrêmes)
-;et retourne sur r0 le numéro de la zone la 
+;partage les 102 pixels en 25 zones de 4 pixels (ignorant les pixels extrÃªmes)
+;et retourne sur r0 le numÃ©ro de la zone la 
 ;pluslumineuse (moyenne).
 lcam_getpic:
 	push	r1
@@ -332,7 +332,7 @@ lcam_getpic:
 
 
 	
-	;Création des groupes
+	;CrÃ©ation des groupes
 	ldi		r31, 25							;for 1 to 25
 lcam_getpic_nextgroup:
 	clr		r1
@@ -342,7 +342,7 @@ lcam_getpic_nextpixel:
 	ld		r0, X+
 	
 	lsr		r0
-	lsr		r0								;division par quatre : deux décalage à droite
+	lsr		r0								;division par quatre : deux dÃ©calage Ã  droite
 
 	add 	r1, r0							;on le premier quart
 

@@ -5,9 +5,9 @@
  * Date: 13.08.2008 
  * Auteur(s): Christophe Winter, Thierry Barras
  * 
- * Cette librairie a été crée par le club de robotique de l'EPFL Robopoly. 
- * Cette librairie est distribuée gratuitement aux membres de Robopoly et les sources 
- * appartiennent à Robopoly.
+ * Cette librairie a Ã©tÃ© crÃ©e par le club de robotique de l'EPFL Robopoly. 
+ * Cette librairie est distribuÃ©e gratuitement aux membres de Robopoly et les sources 
+ * appartiennent Ã  Robopoly.
  *
  ***************************************************************************************/
 

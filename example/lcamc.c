@@ -1,5 +1,5 @@
 //**************************************************************//
-//* Fonctions C pour la caméra linéaire TSL3301                 //
+//* Fonctions C pour la camÃ©ra linÃ©aire TSL3301                 //
 //* Auteur(s): Eric Seuret                                      //
 //* Date: 04-05-2007                                            //
 //* Version: 0.1                                                //
