@@ -1,0 +1,40 @@
+% example file to change the style of LaTeX
+% Tony Roberts May 2004
+% Modifications by Andrew Watson 2008
+
+% first colour for latex or pdflatex
+\ifx\pdfoutput\@undefined\usepackage[usenames,dvips]{color}
+\else\usepackage[usenames,dvipsnames]{color}
+% and fix pdf colour problems
+\IfFileExists{pdfcolmk.sty}{\usepackage{pdfcolmk}}{}
+\fi
+% second test for a5paper
+\ifdim\paperwidth=148mm \usepackage[a5paper]{geometry}\fi
+% lastly load colour hyperref
+%\usepackage[colorlinks]{hyperref}
+%\usepackage[colorlinks=false]{hyperref}
+
+\let\LaTeXtitle\title
+\renewcommand{\title}[1]{\LaTeXtitle{\color{Brown}\textsf{#1}}}
+
+\pagestyle{headings}
+% crunching MakeUppercase is very naughty
+\renewcommand{\MakeUppercase}[1]{\color{RawSienna}\textsf{#1}}
+
+\renewcommand{\abstractname}{\color{blue}Abstract}
+\renewcommand{\figurename}{\color{Sepia}Figure}
+\renewcommand{\tablename}{\color{Sepia}Table}
+
+\let\LaTeX@startsection\@startsection 
+\renewcommand{\@startsection}[6]{\LaTeX@startsection%
+{#1}{#2}{#3}{#4}{#5}{\color{MidnightBlue}\raggedright #6}} 
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\newcommand{\logoepfl}[0]{
+  \begin{center}
+      \includegraphics[width=4cm]{logo_epfl}
+  \end{center}
+  \vspace{0.3cm}
+  \hrule
+}
