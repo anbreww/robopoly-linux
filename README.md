@@ -1,9 +1,11 @@
-Robopoly Linux documentation -- how to install the necessary tools for programming the PRisme on Linux
+#Robopoly Linux documentation -- how to install the necessary tools for programming the PRisme on Linux
+
+More information at [Robopoly](http://robopoly.epfl.ch)
 
 this project currently lives at http://github.com/tunebird/robopoly-linux
 
 to get the latest version, use the following command:
-git clone git://github.com/tunebird/robopoly-linux.git
+    git clone git://github.com/tunebird/robopoly-linux.git
 
 --
 Current TODO : 
