@@ -20,3 +20,7 @@ nodoc:
 	cp ./example/* ./export/
 	tar cvzf ./$(NAME).tar.gz ./export
 	rm -rf -- ./export
+
+upload:
+	scp ./$(NAME).tar.gz andrew@watsons.ch:/var/www/robopoly/
+	echo "Latest build available at http://watsons.ch/robopoly/$(NAME).tar.gz"
