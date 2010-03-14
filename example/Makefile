@@ -77,7 +77,7 @@ PROJECTNAME=example
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S 
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=example.c #robopoly.c
+PRJSRC=example.c robopoly.c
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=#/data/programming/avr/libs

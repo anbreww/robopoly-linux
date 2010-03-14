@@ -1,4 +1,4 @@
-#include "robopoly.c"
+#include "robopoly.h"
 
 int main (void)
 {
