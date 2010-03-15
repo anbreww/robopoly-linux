@@ -54,7 +54,7 @@
 \newcommand{\urlrobopoly}{\url{http://robopoly.epfl.ch}}
 \newcommand{\urldownloads}{\url{http://github.com/tunebird/robopoly-linux/downloads}}
 \newcommand{\urlreadme}{
-   \url{http://github.com/tunebird/robopoly-linux/blob/master/example/README.md}}
+\url{http://github.com/tunebird/robopoly-linux/blob/master/example/README.md}}
 \newcommand{\urlgithub}{\url{http://github.com/tunebird/robopoly-linux}}
 
 
@@ -111,7 +111,7 @@ Atmel tools only available under Windows (AVR Studio)
 
 Install avr-gcc toolchain for linux
 
-\section{Basic setup}
+\section{Installation des outils}
 Pour commencer, il nous faut une suite d'outils pour nous permettre de compiler
 le code pour le microcontrôleur AVR. Ceux-ci sont disponibles avec le
 gestionnaire de packets de la plupart des distributions Linux.
@@ -147,6 +147,39 @@ Robopoly\footnote{\urlrobopoly{}}. La version
 (stable) la plus récente se trouve généralement sur
 Github\footnote{\urldownloads{}}.
 
+Téléchargez l'archive dans le dossier que vous allez utiliser pour écrire vos
+programmes. Dans les exemples suivants, remplacez \code{~/robopoly/} par le
+dossier de votre choix.
+
+Commencez par extraire l'archive:
+\begin{lstlisting}[style=console]
+  cd ~/robopoly
+  tar xvzf robopolibs*.tar.gz
+  cd robopolibs*
+\end{lstlisting}
+
+Ce dossier contient les fichiers suivants:
+\begin{itemize}
+  \item \code{README.md} Un guide de démarrage rapide, aussi disponible en
+    ligne\footnote{\urlreadme{}}.
+  \item \code{pygaload.py} Un script python qui permettra de charger les
+    programmes sur le microcontrôleur.
+  \item \code{robopoly.*} Les librairies standard robopoly
+  \item \code{lcam*} La librairie pour la caméra linéaire
+  \item \code{Makefile} Pour pouvoir compiler et télécharger les programmes
+    facilement
+\end{itemize}
+
+\subsection{Premier test}
+Avant d'aller plus loin, vous pouvez essayer de compiler le projet d'exemple.
+Depuis le dossier que vous venez d'extraire, lancez la commande suivante:
+\begin{lstlisting}[style=console]
+  make hex 
+\end{lstlisting}
+Si la compilation s'effectue sans erreurs, vous devriez maintenant avoir un
+fichier \code{exemple.hex} dans le dossier actuel. Celui-ci contient le code à
+charger sur le microcontrôleur.
+
 \section{Chargement des programmes}
 Pour charger les programmes sur le microcontrôleurs, nous allons utiliser le
 script pygaload qui se trouve dans cette archive. La commande de base pour
@@ -179,8 +212,32 @@ microcontrôleur. On peut donc charger le programme en invocant la commande
 % TODO
 blablabla
 
+\section{Comment contribuer}
+Si vous avez des idées d'améliorations à apporter à la librairie ou à la
+documentation, vous pouvez contribuer vos modifications à travers GitHub. Si
+nous pensons que les autres membres peuvent en profiter, nous les inclurons
+(peut-être) dans les librairies Robopoly.
 
+[ [ [ TODO : Très incomplet ! ] ] ] 
 
+\subsection{Documentation}
+Le présent document est écrit en \LaTeX{} . Vous pouvez sans autre télécharger la
+source du document et y apporter des modifications.
+% TODO add link to github, requirements for latex, etc
 
+\subsection{Code C}
+
+Marche à suivre :
+\begin{list}{}{}
+  \item Créer un compte sur GitHub
+  \item Faire un fork
+  \item Faire des modifications locales
+  \item Push sur son repo public
+  \item Faire une demande de pull
+\end{list}
+
+\begin{lstlisting}[style=console]
+  git clone git://github.com/tunebird/robopoly-linux.git
+\end{lstlisting}
 
 \end{document}
