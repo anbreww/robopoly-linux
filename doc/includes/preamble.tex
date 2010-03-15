@@ -1,0 +1,61 @@
+%\documentclass[a4paper,draft]{article}
+\documentclass[a4paper]{article}
+% NB : enlever ``draft'' pour avoir les images!
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % for hyphenation of accentuated words
+\usepackage{ae,aecompl}  % alternative to the fugly T1 fonts
+\usepackage[pdftex]{graphicx} % modern graphics package
+\usepackage{multirow}   % multiple rows in tables
+
+%\usepackage{microtype}
+%\usepackage{hyph-utf8}
+
+\usepackage{wasysym}    % extended symbols
+\usepackage{includes/mystyle}    % added styling
+\usepackage{marvosym}   % euro symbol, among other things.
+\usepackage[eurosym]{eurofont}
+
+\usepackage[usenames,dvipsnames]{color}  % if using PDFLaTeX
+%\usepackage[usenames,dvips]{color}      % for regular LaTeX 
+
+\usepackage{fancyhdr}   % fancy headers
+\pagestyle{fancy}
+
+%\usepackage{textcomp}  % some additionnal symbols
+\usepackage{units}      % pretty units : \unit[val]{dim}
+\usepackage{url}        % pretty urls
+\usepackage{listings}   % pretty code listings \begin{lstlisting}
+\usepackage{tikz} % pic/graph package. used for rounded corners :)
+
+\graphicspath{{.}{./images/}}
+\usepackage{subfigure} % multiple figures
+
+%\addtocounter{secnumdepth}{1}  % number paragraphs
+
+\usepackage{lscape}     % use landscape mode with \begin{landscape}
+\usepackage{wrapfig}    % invoke Satan and wrap figures in text
+
+\usepackage[colorlinks=true]{hyperref}
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=true,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitV},    % fits the width of the page to the window
+    pdftitle={Robopoly - Guide de Programmation Linux},    % title
+    pdfauthor={Andrew Watson},     % author
+    pdfsubject={Robopoly Linux Librairies},   % subject of the document
+    pdfcreator={Andrew Watson},   % creator of the document
+    pdfproducer={Robopoly}, % producer of the document
+    pdfkeywords={Robopoly, Linux, AVR}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=MidnightBlue,          % color of internal links
+    citecolor=RoyalPurple,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=DarkOrchid           % color of external links
+}
