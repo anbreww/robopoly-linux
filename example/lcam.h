@@ -3,9 +3,11 @@
 //**************************************************************//
 //* Header de la librairie c pour la TSL3301                    //
 //* Auteur(s): Eric Seuret                                      //
-//* Date: 04-05-2007                                            //
-//* Version: 0.1                                                //
+//* Date: 23-05-2009 (04-05-2007)                               //
+//* Version: 0.11                                               //
 //**************************************************************//
+
+//23-05-2009: Modification de lcam_stop pour gérer l'erreur de timeout (Christophe Winter)
 
 /** \defgroup lcam_h Caméra linéaire
 	
@@ -68,7 +70,7 @@ void lcam_startintegration(void);
 void lcam_stop(unsigned char *image);
 
 void lcam_endintegration(void);	//Fin de l'intégration
-void lcam_readout(void);		//Préparation à la lecture
+unsigned char lcam_readout(void);		//Préparation à la lecture
 void lcam_read(unsigned char *image); //Lecture et sauvegarde dans buffer
 
 

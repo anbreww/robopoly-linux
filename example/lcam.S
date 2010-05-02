@@ -1,8 +1,8 @@
 ;******************************************************************************
 ;                                                                             *
 ;    Filename: lcam.s                                                         *
-;    Date: 04/05/2007                                                         *
-;    File Version: 1.2                                                        *
+;    Date: 23/05/2009                                                         *
+;    File Version: 1.3                                                        *
 ;                                                                             *
 ;    Authors: Christophe Winter                                               *
 ;             Fabrizio Lo Conte                                               *
@@ -12,11 +12,18 @@
 ;                                                                             *
 ; Fonctions assembleur de la librairie C pour la caméra linéaire TSL3301.     *
 ; Ces fonctions récupère les données et les traites (consultez lcam.h pour    *
-; plus d'informations														  *
+; plus d'informations							      *
 ;                                                                             *
 ;******************************************************************************
 
-;Fichier d'origine lcam.asm, modifié par Eric Seuret pour l'interface C
+;Modifications
+;23/05/2009:	Ajout d'un timeout dans lcam_readout pour pas rester bloqué
+;				si la caméra plante (Christophe Winter)
+;
+;04/05/2007:	Fichier d'origine lcam.asm, modifié par Eric Seuret pour l'interface C
+
+
+
 
 #include <avr/io.h> 
 
@@ -64,27 +71,27 @@ lcam_setup:
 
 	ldi 	r18, 0x40 				;Left offset
 	rcall 	lsend
-	ldi		r18, 0 				
+	ldi	r18, 0
 	rcall 	lsend
 	ldi 	r18, 0x41 				;Left gain
 	rcall 	lsend
-	ldi 	r18, 15 				
+	ldi 	r18, 15
 	rcall 	lsend
 	ldi 	r18, 0x42 				;Middle offset
 	rcall 	lsend
-	ldi 	r18, 0 				
+	ldi 	r18, 0
 	rcall 	lsend
 	ldi 	r18, 0x43 				;Middle gain
 	rcall 	lsend
-	ldi 	r18, 15 				
+	ldi 	r18, 15
 	rcall 	lsend
 	ldi 	r18, 0x44 				;Right offset
 	rcall 	lsend
-	ldi 	r18, 0 				
+	ldi 	r18, 0
 	rcall 	lsend
 	ldi 	r18, 0x45 				;Right gain
 	rcall 	lsend
-	ldi 	r18, 15 				
+	ldi 	r18, 15
 	rcall 	lsend
 
 	pop		r18
@@ -111,10 +118,10 @@ lsend:
 	;Start bit (SDIN à 0)
 	cbi 	LCAM_PORT, LCAM_SDIN
 	LPULSE
-	
+
 	ldi 	r19, 8					;for 1 to 8
 lsend_next:									;envoi des 8 bits (LSB en premier)
-	bst		r18, 0				
+	bst		r18, 0
 	in		r21, LCAM_PIN
 	bld		r21, LCAM_SDIN
 	out 	LCAM_PORT, r21			;SDIN = r18.0
@@ -138,14 +145,14 @@ lcam_reset:
 	push	r18
 
 	cbi		LCAM_PORT, LCAM_SCLK
-	
-	cbi		LCAM_PORT, LCAM_SDIN			;SDIN = 0				
-								
+
+	cbi		LCAM_PORT, LCAM_SDIN			;SDIN = 0
+
 	push	r19						;30 impulsions sur sclk
 
 	ldi		r19, 30					;for 1 to @0
 lpulsen_next1:
-	sbi		LCAM_PORT, LCAM_SCLK	
+	sbi		LCAM_PORT, LCAM_SCLK
 	dec		r19
 	cbi		LCAM_PORT, LCAM_SCLK
 	brne	lpulsen_next1					;endfor
@@ -158,7 +165,7 @@ lpulsen_next1:
 
 	ldi		r19, 10					;for 1 to @0
 lpulsen_next2:
-	sbi		LCAM_PORT, LCAM_SCLK	
+	sbi		LCAM_PORT, LCAM_SCLK
 	dec		r19
 	cbi		LCAM_PORT, LCAM_SCLK
 	brne	lpulsen_next2					;endfor
@@ -173,7 +180,7 @@ lpulsen_next2:
 
 	ldi		r19, 5					;for 1 to @0
 lpulsen_next3:
-	sbi		LCAM_PORT, LCAM_SCLK	
+	sbi		LCAM_PORT, LCAM_SCLK
 	dec		r19
 	cbi		LCAM_PORT, LCAM_SCLK
 	brne	lpulsen_next3					;endfor
@@ -201,14 +208,14 @@ lcam_startintegration:
 
 	ldi		r19, 22					;for 1 to @0
 lpulsen_next4:
-	sbi		LCAM_PORT, LCAM_SCLK	
+	sbi		LCAM_PORT, LCAM_SCLK
 	dec		r19
 	cbi		LCAM_PORT, LCAM_SCLK
 	brne	lpulsen_next4					;endfor
 
 	pop		r19
 
-	
+
 	pop		r18
 	ret
 
@@ -226,14 +233,14 @@ lcam_endintegration:
 
 	ldi		r19, 5					;for 1 to @0
 lpulsen_next5:
-	sbi		LCAM_PORT, LCAM_SCLK	
+	sbi		LCAM_PORT, LCAM_SCLK
 	dec		r19
 	cbi		LCAM_PORT, LCAM_SCLK
 	brne	lpulsen_next5					;endfor
 
 	pop		r19
 
-	
+
 	pop 	r18
 	ret
 
@@ -244,15 +251,25 @@ lcam_readout:
 	push	r18
 
 	ldi 	r18, 0x02				;Commande READPixel
-	rcall 	lsend			
+	rcall 	lsend
 
+	clr		r24		; retourne 0 si pas d'erreur
+	clr 	r25
 	sbis	LCAM_PIN, LCAM_SDOUT			;Boucle d'attente que la caméra soit prête
 	rjmp 	lcam_readout_end
-lcam_readout_next:	
+
+	ldi		r18, 255
+lcam_readout_next:
 	LPULSE
-	nop
+	;nop
+	dec		r18
+	breq	lcam_readout_end_err				; timeout si la caméra plante
 	sbic	LCAM_PIN, LCAM_SDOUT
 	rjmp	lcam_readout_next
+	rjmp	lcam_readout_end
+
+lcam_readout_end_err:								; valeur de retour d'erreur 0xFF
+	ldi		r24, 0xFF
 
 lcam_readout_end:
 	pop		r18
@@ -272,12 +289,12 @@ lcam_read:
 
 	mov 	r26, r24 					;adresse (low) du buffer
 	mov 	r27, r25					;adresse (high) du buffer
-	
+
 
 	ldi 	r19, 102					;for 1 to 102
 lcam_read_nextpixel:
 	ldi 	r18, 0					;réception d'un pixel (LSB en premier)
-	
+
 	ldi 	r20, 8					;for 1 to 8
 	LPULSE
 	clc
@@ -331,16 +348,16 @@ lcam_getpic:
 	mov 	r27, r25
 
 
-	
+
 	;Création des groupes
 	ldi		r31, 25							;for 1 to 25
 lcam_getpic_nextgroup:
 	clr		r1
-	
+
 	ldi		r30, 4							;for 1 to 4
 lcam_getpic_nextpixel:
 	ld		r0, X+
-	
+
 	lsr		r0
 	lsr		r0								;division par quatre : deux décalage à droite
 
@@ -350,15 +367,15 @@ lcam_getpic_nextpixel:
 	brne	lcam_getpic_nextpixel				;endfor
 
 	st		y+, r1
-	
+
 	dec		r31
 	brne	lcam_getpic_nextgroup
 
-	
+
 	;Recherche du plus haut groupe
 	mov 	r28, r24
 	mov 	r29, r25
-	
+
 	clr		r0
 	clr		r31								;for 1 to 25
 	clr		r2
@@ -369,7 +386,7 @@ lcam_getpic_nextgroup1:
 	ld		r1, y+
 	cp		r1, r2
 
-	brlo	lcam_getpic_smaller	
+	brlo	lcam_getpic_smaller
 	mov		r0, r31
 	mov		r2, r1
 
@@ -386,14 +403,14 @@ lcam_getpic_none:
 	sub 	r2, r30
 	mov		r31, r2
 	cpi		r31, 11
-	brsh	lcam_getpic_end	
-	clr		r0	
+	brsh	lcam_getpic_end
+	clr		r0
 
 lcam_getpic_end:
 
 	mov		r24, r0
 	clr 	r25
-	
+
 	pop		r29
 	pop		r28
 	pop		r27
@@ -409,4 +426,4 @@ lcam_getpic_end:
 
 
 
-	
+
